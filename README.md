@@ -3,8 +3,8 @@
 
 # 使用方法
 
-1. 克隆本项目到`$HOME`目录
-2. 将以下内容粘贴到你的shell启动文件中`.bash_profile|.zshrc` ...
+1. git clone https://github.com/xinfeng-tech/fvm.git $HOME/fvm
+2. Copy the following content in to your `.bash_profile|.zshrc ...` file
 
 ```
 export PUB_HOSTED_URL=http://mirrors.cnnic.cn/dart-pub
@@ -14,7 +14,7 @@ alias fvm="`dirname $FLUTTER_ROOT`/fvm.sh"
 export PATH="$FLUTTER_ROOT/bin:$PATH"
 ```
 
-3. 打开终端执行fvm命令
+3. Open terminal and type `fvm` command
 ```
 fvm
 ```
