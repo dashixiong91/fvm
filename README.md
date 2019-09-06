@@ -1,7 +1,7 @@
 # fvm
 > Flutter SDK versions Manager
 
-# 使用方法
+# Usage
 
 1. Download 
 
