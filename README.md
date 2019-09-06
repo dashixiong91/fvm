@@ -3,7 +3,12 @@
 
 # 使用方法
 
-1. git clone https://github.com/xinfeng-tech/fvm.git $HOME/fvm
+1. Download 
+
+```
+git clone https://github.com/xinfeng-tech/fvm.git $HOME/fvm
+```
+
 2. Copy the following content in to your `.bash_profile|.zshrc ...` file
 
 ```
