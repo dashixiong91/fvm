@@ -1,0 +1,11 @@
+# temp files
+*.log
+*.bak
+*.swp
+.DS_Store
+.svn/
+
+# dir
+versions
+current
+
