@@ -60,6 +60,7 @@ function use(){
 
 function install(){
   echo "TODO: it is not implements.."
+  # https://mirrors.cnnic.cn/flutter/flutter_infra/releases/stable/macos/
 }
 
 function main(){
