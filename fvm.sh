@@ -29,7 +29,7 @@ function print_help(){
 function list(){
     echo "current => `current`"
     echo ""
-    echo "可用的版本："
+    echo "installed versions:"
     for version in `ls -1 "${THIS_DIR}/versions"`
     do
       echo "${version} => `cat ${THIS_DIR}/versions/${version}/version`"
@@ -48,7 +48,11 @@ function print_current_version(){
 }
 
 function use(){
-    local version=${1:-default}
+    local version_key="${1:-default}"
+    local version=`list | awk -F ' =>' '{print $1}' | grep "${version_key}" | awk 'NR==1'`
+    if [[ -z ${version} ]];then
+      version='default'
+    fi
     echo "Switch flutter to => version:${version}"
     local current_dir=$THIS_DIR/current
     local target_version_dir=$THIS_DIR/versions/$version
