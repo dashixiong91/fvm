@@ -91,9 +91,9 @@ function install(){
     echo "Error: flutter $version_short seems to has installed ,please check it!!"
     exit 1
   fi
-  echo "flutter $version_short is downloading..."
   rm -rf $temp_zip
   mkdir -p `dirname $temp_zip`
+  echo "flutter $version_short is downloading..."
   curl --progress-bar -o $temp_zip $download_url
   unzip -o $temp_zip -d $target_dir
   echo "flutter $version_short has installed to $target_dir!"
