@@ -3,7 +3,12 @@
 set -e
 
 THIS_DIR="$(cd "$(if [[ "${0:0:1}" == "/" ]]; then echo "$(dirname $0)";else echo "$PWD/$(dirname $0)";fi)"; pwd)"
-FLUTTER_STORAGE_BASE_URL=${FLUTTER_STORAGE_BASE_URL:-"http://mirrors.cnnic.cn/flutter"}
+
+FVM_DIR="${FVM_DIR:-"$HOME/.fvm"}"
+FVM_VERSIONS_DIR="${FVM_DIR}/versions"
+FVM_CURRENT_LINK="${FVM_DIR}/current"
+
+FLUTTER_STORAGE_BASE_URL="${FLUTTER_STORAGE_BASE_URL:-"http://mirrors.cnnic.cn/flutter"}"
 FLUTTER_RELEASE_BASE_URL="${FLUTTER_STORAGE_BASE_URL}/flutter_infra/releases"
 
 darwin=false
@@ -39,20 +44,36 @@ function print_help(){
     echo ""
 
 }
-
+function init(){
+  export FLUTTER_ROOT="$FVM_CURRENT_LINK"
+  export PATH="$FLUTTER_ROOT/bin:$PATH"
+  alias fvm="${THIS_DIR}/fvm.sh"
+  if [[ ! -d ${FVM_VERSIONS_DIR} ]];then
+    mkdir -p ${FVM_VERSIONS_DIR}
+  fi
+}
 function list(){
     print_green "current => `current`"
     echo ""
     print_blue "installed versions:"
-    for version in `ls -1 "${THIS_DIR}/versions"`
+    for version in `ls -1 "${FVM_VERSIONS_DIR}"`
     do
-      echo "${version} => `cat ${THIS_DIR}/versions/${version}/version`"
+      local version_file="${FVM_VERSIONS_DIR}/${version}/version"
+      if [[ ! -f $version_file ]];then
+        echo "unkonw"
+      else
+        echo "${version} => `cat ${version_file}`"
+      fi
     done
 }
 
 function current(){
-   local current=`readlink $THIS_DIR/current`
-   current=${current#$THIS_DIR/versions/}
+   if [[ ! -d $FVM_CURRENT_LINK ]];then
+     echo "unset"
+     return
+   fi
+   local current=`readlink $FVM_CURRENT_LINK`
+   current=${current#${FVM_VERSIONS_DIR}/}
    echo ${current}
 }
 
@@ -68,8 +89,7 @@ function use(){
       version='default'
     fi
     print_blue "Switch flutter to => version:${version}"
-    local current_dir=$THIS_DIR/current
-    local target_version_dir=$THIS_DIR/versions/$version
+    local target_version_dir=$FVM_VERSIONS_DIR/$version
     if [[ ! -d ${target_version_dir} ]];then
       print_red "Error: version:${version} has not installed!!"
       exit 1
@@ -78,8 +98,8 @@ function use(){
       print_red "Error: version:${version} is not a valid flutter-sdk !!"
       exit 2
     fi
-    rm -rf $current_dir
-    ln -s $target_version_dir $current_dir
+    rm -rf $FVM_CURRENT_LINK
+    ln -s $target_version_dir $FVM_CURRENT_LINK
     print_current_version
 }
 function list_remote(){
@@ -100,7 +120,7 @@ function install(){
   local version_short=`echo $version_zip | awk -F '_v' '{print $2}' | awk -F '.zip' '{print $1}'`
   local download_url="${FLUTTER_RELEASE_BASE_URL}/${version_zip}"
   local temp_zip="${TMPDIR}fvm/flutter.zip"
-  local target_dir="${THIS_DIR}/versions/${version_short}"
+  local target_dir="${FVM_VERSIONS_DIR}/${version_short}"
   if [[ -d ${target_dir} ]];then
     print_red "Error: flutter $version_short seems to has installed ,please check it!!"
     exit 1
@@ -118,12 +138,13 @@ function main(){
     local cmd args
     cmd="$1"
     args="${@#$cmd}"
+    init
     case ${cmd} in
         "use")use $args;;
         "list"|"ls")list;;
         "list-remote")list_remote;;
         "install")install $args;;
-        "help"|*)print_help;;
+        "help")print_help;;
     esac
 }
 main "$@"
