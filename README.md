@@ -19,7 +19,7 @@ Copy the following content in to your `.bashrc|.zshrc ...` file
 export PUB_HOSTED_URL=http://mirrors.cnnic.cn/dart-pub
 export FLUTTER_STORAGE_BASE_URL=http://mirrors.cnnic.cn/flutter 
 export FVM_DIR="$HOME/.fvm"
-. "/usr/local/opt/fvm/init.sh"
+source "/usr/local/opt/fvm/init.sh"
 ```
 ## Usage
 
