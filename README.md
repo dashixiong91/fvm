@@ -23,7 +23,7 @@ export FVM_DIR="$HOME/.fvm"
 ```
 ## Usage
 
-1. Open terminal and type `fvm` command
+1. Print `fvm` command help
 ```
 fvm
 # or `fvm help`
