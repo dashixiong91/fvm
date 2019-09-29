@@ -36,11 +36,12 @@ function print_help(){
     echo "Usage: fvm <command> [arguments]"
     echo ""
     echo "Available commands:"
-    echo "  use             Switch flutter-sdk to version."
-    echo "  list|ls         Print flutter-sdk installed versions."
-    echo "  list-remote     Print flutter-sdk release versions."
-    echo "  install         Install flutter-sdk version."
-    echo "  help|*          Display help information."
+    echo "  use <version>               Switch flutter-sdk to version."
+    echo "  alias <name> <version>      Set an alias named <name> pointing to <version>."
+    echo "  list|ls                     Print flutter-sdk installed versions."
+    echo "  list-remote                 Print flutter-sdk release versions."
+    echo "  install <version>           Install flutter-sdk version."
+    echo "  help|*                      Display help information."
     echo ""
 
 }
@@ -101,6 +102,28 @@ function use(){
     ln -s $target_version_dir $FVM_CURRENT_LINK
     print_current_version
 }
+function alias(){
+  local alias_name="${1}"
+  local version_key="${2}"
+  if [[ -z ${alias_name} ]];then
+     print_red "Error: \$alias_name is required !!" 
+     exit 1
+  fi
+  if [[ -z ${version_key} ]];then
+     print_red "Error: \$version_key is required !!" 
+     exit 2
+  fi
+  local version=`list | awk -F ' =>' '{print $1}' | grep "${version_key}" | awk 'NR==1'`
+  local target_version_dir=$FVM_VERSIONS_DIR/$version
+  if [[ ! -d ${target_version_dir} ]];then
+      print_red "Error: version:${version} has not installed!!"
+      exit 1
+  fi
+  local alias_version_dir=$FVM_VERSIONS_DIR/$alias_name
+  rm -rf $alias_version_dir
+  ln -s $target_version_dir $alias_version_dir
+}
+
 function list_remote(){
     local release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_linux.json"
     if [[ darwin ]];then
@@ -131,6 +154,13 @@ function install(){
   unzip -o $temp_zip -d $target_dir
   print_blue "flutter $version_short has installed to $target_dir!"
   rm -rf $temp_zip
+
+  if [[ ! -d "$FVM_VERSIONS_DIR/default" ]];then
+    alias default $version_short
+  fi
+  if [[ ! -d "$FVM_VERSIONS_DIR/latest" ]];then
+    alias latest $version_short
+  fi
 }
 
 function main(){
@@ -140,6 +170,7 @@ function main(){
     case ${cmd} in
         "init")init;;
         "use")use $args;;
+        "alias")alias $args;;
         "list"|"ls")list;;
         "list-remote")list_remote;;
         "install")install $args;;

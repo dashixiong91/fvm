@@ -1,25 +1,40 @@
 # fvm
 > Flutter SDK versions Manager
 
-# Usage
+## Installation
 
-1. Download 
-
+Then, run the following in your command-line:
 ```
-git clone https://github.com/xinfeng-tech/fvm.git $HOME/.fvm
+brew tap xinfeng-tech/fvm
 ```
 
-2. Copy the following content in to your `.bash_profile|.zshrc ...` file
+Once the tap is installed, you can install `fvm`
+```
+brew install fvm
+```
+
+Copy the following content in to your `.bashrc|.zshrc ...` file
 
 ```
 export PUB_HOSTED_URL=http://mirrors.cnnic.cn/dart-pub
 export FLUTTER_STORAGE_BASE_URL=http://mirrors.cnnic.cn/flutter 
-export FLUTTER_ROOT="$HOME/.fvm/current"
-alias fvm="`dirname $FLUTTER_ROOT`/fvm.sh"
-export PATH="$FLUTTER_ROOT/bin:$PATH"
+export FVM_DIR="$HOME/.fvm"
+. "/usr/local/opt/fvm/init.sh"
 ```
+## Usage
 
-3. Open terminal and type `fvm` command
+1. Open terminal and type `fvm` command
 ```
 fvm
+# or `fvm help`
+```
+
+2. Install Flutter@1.9.1
+```
+fvm install 1.9.1
+```
+
+3. Use Flutter@1.9.1
+```
+fvm use 1.9.1
 ```
