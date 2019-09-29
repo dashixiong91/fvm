@@ -45,11 +45,11 @@ function print_help(){
 
 }
 function init(){
-  export FLUTTER_ROOT="$FVM_CURRENT_LINK"
-  export PATH="$FLUTTER_ROOT/bin:$PATH"
   if [[ ! -d ${FVM_VERSIONS_DIR} ]];then
     mkdir -p ${FVM_VERSIONS_DIR}
   fi
+  echo FLUTTER_ROOT="$FVM_CURRENT_LINK"
+  echo PATH="$FLUTTER_ROOT/bin:$PATH"
 }
 function list(){
     print_green "current => `current`"
