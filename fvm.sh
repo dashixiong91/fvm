@@ -50,7 +50,7 @@ function init(){
     mkdir -p ${FVM_VERSIONS_DIR}
   fi
   echo FLUTTER_ROOT="$FVM_CURRENT_LINK"
-  echo PATH="$FLUTTER_ROOT/bin:$PATH"
+  echo PATH="$FVM_CURRENT_LINK/bin:$PATH"
 }
 function list(){
     print_green "current => `current`"
@@ -178,5 +178,3 @@ function main(){
     esac
 }
 main "$@"
-
-
