@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-THIS_DIR="$(cd "$(if [[ "${0:0:1}" == "/" ]]; then echo "$(dirname $0)";else echo "$PWD/$(dirname $0)";fi)"; pwd)"
-FVM_SCRIPT="${THIS_DIR}/fvm.sh"
-alias fvm="${FVM_SCRIPT}"
+alias fvm="`brew --prefix`/opt/fvm/fvm.sh"
 
 for element in `fvm init`
 do
