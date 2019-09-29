@@ -6,5 +6,6 @@ alias fvm="${FVM_SCRIPT}"
 
 for element in `fvm init`
 do
-  export $element
+  local export_cmd="export $element"
+  eval $export_cmd
 done
