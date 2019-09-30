@@ -141,7 +141,8 @@ function install(){
   fi
   local version_short=`echo $version_zip | awk -F '_v' '{print $2}' | awk -F '.zip' '{print $1}'`
   local download_url="${FLUTTER_RELEASE_BASE_URL}/${version_zip}"
-  local temp_zip="${TMPDIR}fvm/flutter.zip"
+  local temp_dir="${TMPDIR}fvm"
+  local temp_zip="${temp_dir}/flutter.zip"
   local target_dir="${FVM_VERSIONS_DIR}/${version_short}"
   if [[ -d ${target_dir} ]];then
     print_red "Error: flutter $version_short seems to has installed ,please check it!!"
@@ -151,7 +152,8 @@ function install(){
   mkdir -p `dirname $temp_zip`
   print_green "flutter $version_short is downloading..."
   curl --progress-bar -o $temp_zip $download_url
-  unzip -o $temp_zip -d $target_dir
+  unzip -oq $temp_zip -d $temp_dir
+  mv "${temp_dir}/flutter" $target_dir
   print_blue "flutter $version_short has installed to $target_dir!"
   rm -rf $temp_zip
 
