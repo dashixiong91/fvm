@@ -54,7 +54,6 @@ function init(){
 }
 function list(){
     print_green "current => `current`"
-    echo ""
     print_blue "installed versions:"
     for version in `ls -1 "${FVM_VERSIONS_DIR}"`
     do
