@@ -85,14 +85,11 @@ function use(){
     local version_key="${1:-default}"
     local version=`list | awk -F ' =>' '{print $1}' | grep "${version_key}" | awk 'NR==1'`
     if [[ -z ${version} ]];then
-      version='default'
+      print_red "Error: version:${version_key} has not installed!!"
+      exit 1
     fi
     print_blue "Switch flutter to => version:${version}"
     local target_version_dir=$FVM_VERSIONS_DIR/$version
-    if [[ ! -d ${target_version_dir} ]];then
-      print_red "Error: version:${version} has not installed!!"
-      exit 1
-    fi
     if [[ ! -f ${target_version_dir}/bin/flutter ]];then
       print_red "Error: version:${version} is not a valid flutter-sdk !!"
       exit 2
@@ -105,19 +102,19 @@ function alias(){
   local alias_name="${1}"
   local version_key="${2}"
   if [[ -z ${alias_name} ]];then
-     print_red "Error: \$alias_name is required !!" 
+     print_red "Error: \$name is required !!" 
      exit 1
   fi
   if [[ -z ${version_key} ]];then
-     print_red "Error: \$version_key is required !!" 
+     print_red "Error: \$version is required !!" 
      exit 2
   fi
   local version=`list | awk -F ' =>' '{print $1}' | grep "${version_key}" | awk 'NR==1'`
-  local target_version_dir=$FVM_VERSIONS_DIR/$version
-  if [[ ! -d ${target_version_dir} ]];then
-      print_red "Error: version:${version} has not installed!!"
+  if [[ -z ${version} ]];then
+      print_red "Error: version:${version_key} has not installed!!"
       exit 1
   fi
+  local target_version_dir=$FVM_VERSIONS_DIR/$version
   local alias_version_dir=$FVM_VERSIONS_DIR/$alias_name
   rm -rf $alias_version_dir
   ln -s $target_version_dir $alias_version_dir
@@ -134,6 +131,10 @@ function list_remote(){
 function install(){
   local version_key="$1"
   local version_zip=""
+  if [[ -z ${version_key}  ]];then
+    print_red "Error: \$version is required !!" 
+    exit 1
+  fi
   version_zip=`list_remote | grep "$version_key" | awk 'NR==1'`
   if [[ -z ${version_zip}  ]];then
     print_red "Error: no flutter version match $version_key !!"
