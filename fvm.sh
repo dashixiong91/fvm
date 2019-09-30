@@ -122,6 +122,7 @@ function alias(){
   local alias_version_dir=$FVM_VERSIONS_DIR/$alias_name
   rm -rf $alias_version_dir
   ln -s $target_version_dir $alias_version_dir
+  print_blue "alias $alias_name to $version!"
 }
 
 function list_remote(){
@@ -163,6 +164,7 @@ function install(){
   if [[ ! -d "$FVM_VERSIONS_DIR/latest" ]];then
     alias latest $version_short
   fi
+  list
 }
 
 function main(){
