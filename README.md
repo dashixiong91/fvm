@@ -38,3 +38,8 @@ fvm install 1.9.1
 ```
 fvm use 1.9.1
 ```
+
+## Preview
+
+![Terminal](preview/terminal.png)
+ 
