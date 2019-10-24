@@ -36,15 +36,18 @@ function print_help(){
     echo "Usage: fvm <command> [arguments]"
     echo ""
     echo "Available commands:"
-    echo "  use <version>               Switch flutter-sdk to version."
-    echo "  alias <name> <version>      Set an alias named <name> pointing to <version>."
-    echo "  list|ls                     Print flutter-sdk installed versions."
-    echo "  list-remote                 Print flutter-sdk release versions."
-    echo "  install <version>           Install flutter-sdk version."
-    echo "  help|*                      Display help information."
+    echo "  list-remote [release_type]      Print flutter-sdk release versions.[release_type] should be stable|beta|dev."
+    echo "  list|ls                         Print flutter-sdk installed versions."
+    echo "  install <version_key>           Install flutter-sdk version that matched <version_key>."
+    echo "  remove <version>                Remove flutter-sdk version or alias."
+    echo "  alias <name> <version_key>      Set an alias named <name> pointing to version that matched <version_key>."
+    echo "  latest-dev                      Create a latest-dev version copy from latest."
+    echo "  use <version_key>               Switch flutter-sdk to version that matched <version_key>."
+    echo "  help|*                          Display help information."
     echo ""
 
 }
+
 function init(){
   if [[ ! -d ${FVM_VERSIONS_DIR} ]];then
     mkdir -p ${FVM_VERSIONS_DIR}
@@ -52,17 +55,25 @@ function init(){
   echo FLUTTER_ROOT="$FVM_CURRENT_LINK"
   echo PATH="$FVM_CURRENT_LINK/bin:$PATH"
 }
+
 function list(){
     print_green "current => `current`"
     print_blue "installed versions:"
     for version in `ls -1 "${FVM_VERSIONS_DIR}"`
     do
-      local version_file="${FVM_VERSIONS_DIR}/${version}/version"
-      if [[ ! -f $version_file ]];then
-        echo "unkonw"
-      else
-        echo "${version} => `cat ${version_file}`"
+      local version_dir="${FVM_VERSIONS_DIR}/${version}"
+      local version_file="${version_dir}/version"
+      local color="37"
+      if [[ -h $version_dir ]];then
+        color="35"
       fi
+      local print_line=""
+      if [[ ! -f $version_file ]];then
+        print_line="\033[${color}m${version}\033[0m => unkonw"
+      else
+        print_line="\033[${color}m${version}\033[0m => `cat ${version_file}`"
+      fi
+      echo -e "$print_line"
     done
 }
 
@@ -77,13 +88,13 @@ function current(){
 }
 
 function print_current_version(){
-    print_blue "Now using flutter => version:`current`"
+    print_blue "Now using flutter version:`current`...(Please wait a moment when first switch to it!!!)"
     flutter --version
 }
 
 function use(){
     local version_key="${1:-default}"
-    local version=`list | awk -F ' =>' '{print $1}' | grep "${version_key}" | awk 'NR==1'`
+    local version=`ls -1 ${FVM_VERSIONS_DIR} | grep "${version_key}" | awk 'NR==1'`
     if [[ -z ${version} ]];then
       print_red "Error: version:${version_key} has not installed!!"
       exit 1
@@ -98,6 +109,7 @@ function use(){
     ln -s $target_version_dir $FVM_CURRENT_LINK
     print_current_version
 }
+
 function alias(){
   local alias_name="${1}"
   local version_key="${2}"
@@ -109,7 +121,7 @@ function alias(){
      print_red "Error: \$version is required !!" 
      exit 2
   fi
-  local version=`list | awk -F ' =>' '{print $1}' | grep "${version_key}" | awk 'NR==1'`
+  local version=`ls -1 ${FVM_VERSIONS_DIR} | grep "${version_key}" | awk 'NR==1'`
   if [[ -z ${version} ]];then
       print_red "Error: version:${version_key} has not installed!!"
       exit 1
@@ -122,12 +134,24 @@ function alias(){
 }
 
 function list_remote(){
+    local release_type="${1:-"stable/"}"
+    local full_path="$2"
     local release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_linux.json"
     if [[ darwin ]];then
       release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_macos.json"
     fi
-    curl -Ss ${release_info_url} | grep 'stable/' | awk -F ': ' '{print $2}' | awk -F '"' '{print $2}'
+    local short_format="awk -F '_v' '{print \$2}' | awk -F '.zip' '{print \$1}'"
+    if [[ -n $full_path ]];then
+      short_format=""
+    fi
+    local remote_print_cmd="curl -Ss ${release_info_url} | grep 'archive\"' | grep '${release_type}' | awk -F ': ' '{print \$2}' | awk -F '\"' '{print \$2}'"
+    if [[ -n $short_format ]];then
+      eval "$remote_print_cmd | $short_format"
+    else 
+      eval "$remote_print_cmd"
+    fi
 }
+
 function install(){
   local version_key="$1"
   local version_zip=""
@@ -135,9 +159,9 @@ function install(){
     print_red "Error: \$version is required !!" 
     exit 1
   fi
-  version_zip=`list_remote | grep "$version_key" | awk 'NR==1'`
+  version_zip=`list_remote / 1 | grep "$version_key" | awk 'NR==1'`
   if [[ -z ${version_zip}  ]];then
-    print_red "Error: no flutter version match $version_key !!"
+    print_red "Error: no flutter version matched $version_key !!"
     exit 1
   fi
   local version_short=`echo $version_zip | awk -F '_v' '{print $2}' | awk -F '.zip' '{print $1}'`
@@ -158,13 +182,46 @@ function install(){
   print_blue "flutter $version_short has installed to $target_dir!"
   rm -rf $temp_zip
 
-  if [[ ! -d "$FVM_VERSIONS_DIR/default" ]];then
+  if [[ ! -f "$FVM_VERSIONS_DIR/default/version" ]];then
     alias default $version_short
   fi
-  if [[ ! -d "$FVM_VERSIONS_DIR/latest" ]];then
+  if [[ ! -f "$FVM_VERSIONS_DIR/latest/version" ]];then
     alias latest $version_short
   fi
   list
+}
+
+function remove(){
+  local version="$1"
+  if [[ -z ${version}  ]];then
+    print_red "Error: \$version is required !!" 
+    exit 1
+  fi
+  local version_dir="${FVM_VERSIONS_DIR}/${version}"
+  if [[ ! -d ${version_dir} ]];then
+      print_red "Error: version:${version} has not installed!!"
+      exit 1
+  fi
+  rm -rf $version_dir
+  print_blue "flutter version(alias):$version has remove!"
+}
+
+function latest_dev(){
+  local latest_dev_dir="${FVM_VERSIONS_DIR}/latest-dev"
+  if [[ -d $latest_dev_dir ]];then
+    print_red "Error: version:latest-dev has created!! please don't recreate, you should upgrade it by execution \`flutter upgrade\`!"
+    exit 1
+  fi
+  local latest_dir="${FVM_VERSIONS_DIR}/latest"
+  if [[ ! -d $latest_dir ]];then
+    print_red "Error: version:latest has not installed!! "
+    exit 1
+  fi
+  print_green "latest-dev version create..."
+  cp -R `readlink ${latest_dir}` ${latest_dev_dir}
+  use latest-dev
+  flutter channel dev && flutter upgrade
+  print_blue "flutter version:latest-dev has created!"
 }
 
 function main(){
@@ -173,11 +230,13 @@ function main(){
     args="${@#$cmd}"
     case ${cmd} in
         "init")init;;
-        "use")use $args;;
-        "alias")alias $args;;
+        "list-remote"|"ls-remote")list_remote $args;;
         "list"|"ls")list;;
-        "list-remote")list_remote;;
         "install")install $args;;
+        "remove")remove $args;;
+        "alias")alias $args;;
+        "latest-dev")latest_dev $args;;
+        "use")use $args;;
         "help"|*)print_help;;
     esac
 }
