@@ -41,5 +41,4 @@ fvm use 1.9.1
 
 ## Preview
 
-![Terminal](https://xinfeng-tech.gitee.io/assets/fvm/terminal.png)
- 
+ <img src="https://xinfeng-tech.gitee.io/assets/fvm/terminal.png" alt="terminal">
