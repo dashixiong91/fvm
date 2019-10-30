@@ -1,0 +1,31 @@
+{
+  "name": "fvm",
+  "version": "1.0.0",
+  "description": "Flutter SDK versions Manager",
+  "repository": "git@github.com:xinfeng-tech/fvm.git",
+  "author": "qianxinfeng <qianxinfeng@meituan.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/prompt": "^8.2.0",
+    "commitizen": "^4.0.3",
+    "conventional-changelog-cli": "^2.0.25",
+    "husky": "^4.0.0-beta.5"
+  },
+  "scripts": {
+    "commit": "git-cz",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "publish": "bin/publish.sh"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/prompt"
+    }
+  }
+}
