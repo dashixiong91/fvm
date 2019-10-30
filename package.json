@@ -5,6 +5,7 @@
   "repository": "git@github.com:xinfeng-tech/fvm.git",
   "author": "qianxinfeng <qianxinfeng@meituan.com>",
   "license": "MIT",
+  "installationMethod": "tar",
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
