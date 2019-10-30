@@ -1,6 +1,6 @@
 {
   "name": "fvm",
-  "version": "1.0.0",
+  "version": "1.0.9",
   "description": "Flutter SDK versions Manager",
   "repository": "git@github.com:xinfeng-tech/fvm.git",
   "author": "qianxinfeng <qianxinfeng@meituan.com>",
@@ -16,7 +16,7 @@
   "scripts": {
     "commit": "git-cz",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "publish": "bin/publish.sh"
+    "pub": "bin/publish.sh"
   },
   "husky": {
     "hooks": {

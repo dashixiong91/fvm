@@ -1,0 +1,3 @@
+[submodule "packages/homebrew-fvm"]
+	path = packages/homebrew-fvm
+	url = git@github.com:xinfeng-tech/homebrew-fvm.git
