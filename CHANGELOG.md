@@ -1,3 +1,7 @@
+# [1.1.0](https://github.com/xinfeng-tech/fvm/compare/v1.0.10...v1.1.0) (2019-10-30)
+
+
+
 ## [1.0.10](https://github.com/xinfeng-tech/fvm/compare/v1.0.9...v1.0.10) (2019-10-30)
 
 
