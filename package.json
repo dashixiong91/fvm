@@ -14,6 +14,8 @@
     "husky": "^4.0.0-beta.5"
   },
   "scripts": {
+    "postinstall": "git submodule init && git submodule update",
+    "test":"bin/test.sh",
     "commit": "git-cz",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "pub": "bin/publish.sh"
