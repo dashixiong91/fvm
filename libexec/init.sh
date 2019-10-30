@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-alias fvm="`brew --prefix`/opt/fvm/fvm.sh"
+set -e
 
 for element in `fvm init`
 do
