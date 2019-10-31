@@ -37,7 +37,7 @@ function print_help(){
     echo ""
     echo "Available commands:"
     echo "  list-remote [release_type]      Print flutter-sdk release versions."
-    echo "                                  [release_type] should be stable|beta|dev."
+    echo "                                  [release_type] should be stable|beta|dev|all."
     echo "  list|ls                         Print flutter-sdk installed versions."
     echo "  install <version_key>           Install flutter-sdk version that matched <version_key>."
     echo "  remove <version>                Remove flutter-sdk version or alias."
@@ -52,6 +52,9 @@ function print_help(){
 }
 function print_version(){
     local pkg_file="${THIS_DIR}/package.json"
+    if [[ ! -f $pkg_file ]];then
+      pkg_file="${THIS_DIR}/../package.json"
+    fi
     local pkg_version=`cat ${pkg_file} | grep "\"version\"" | awk 'NR==1' | awk -F '\"' '{print $4}'`
     echo "$pkg_version"
 }
@@ -138,11 +141,14 @@ function alias(){
 }
 
 function list_remote(){
-    local release_type="${1:-"stable/"}"
+    local release_type="${1:-"all"}"
     local full_path="$2"
     local release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_linux.json"
     if [[ darwin ]];then
       release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_macos.json"
+    fi
+    if [[ $release_type == "all" ]];then
+      release_type='/'
     fi
     local short_format="awk -F '_v' '{print \$2}' | awk -F '.zip' '{print \$1}'"
     if [[ -n $full_path ]];then
@@ -150,7 +156,7 @@ function list_remote(){
     fi
     local remote_print_cmd="curl -Ss ${release_info_url} | grep 'archive\"' | grep '${release_type}' | awk -F ': ' '{print \$2}' | awk -F '\"' '{print \$2}'"
     if [[ -n $short_format ]];then
-      eval "$remote_print_cmd | $short_format"
+      eval "$remote_print_cmd | $short_format | sort -n -t . -k 1 -k 2 -k 3"
     else 
       eval "$remote_print_cmd"
     fi
@@ -163,7 +169,7 @@ function install(){
     print_red "Error: \$version is required !!" 
     exit 1
   fi
-  version_zip=`list_remote / 1 | grep "$version_key" | awk 'NR==1'`
+  version_zip=`list_remote all 1 | grep "$version_key" | awk 'NR==1'`
   if [[ -z ${version_zip}  ]];then
     print_red "Error: no flutter version matched $version_key !!"
     exit 1
