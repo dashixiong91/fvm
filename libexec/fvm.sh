@@ -180,8 +180,8 @@ function install(){
   local temp_zip="${temp_dir}/flutter.zip"
   local target_dir="${FVM_VERSIONS_DIR}/${version_short}"
   if [[ -d ${target_dir} ]];then
-    print_red "Error: flutter $version_short seems to has installed ,please check it!!"
-    exit 1
+    print_green "flutter $version_short seems to has installed,skipted it!"
+    return
   fi
   rm -rf $temp_zip
   mkdir -p `dirname $temp_zip`
@@ -219,8 +219,8 @@ function remove(){
 function latest_dev(){
   local latest_dev_dir="${FVM_VERSIONS_DIR}/latest-dev"
   if [[ -d $latest_dev_dir ]];then
-    print_red "Error: version:latest-dev has created!! please don't recreate, you should upgrade it by execution \`flutter upgrade\`!"
-    exit 1
+    print_yellow "Warn: version:latest-dev has created!! please don't recreate, you should upgrade it by execution \`flutter upgrade\`!"
+    return
   fi
   local latest_dir="${FVM_VERSIONS_DIR}/latest"
   if [[ ! -d $latest_dir ]];then
