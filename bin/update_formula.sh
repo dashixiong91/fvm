@@ -57,6 +57,10 @@ function main(){
   update_formual "sha256" $sha256
   echo "url:$download_url"
   echo "sha256:${sha256}"
+  if [[ -z $sha256 ]];then
+    echo -e "\033[31m get sha256 error!!! \033[0m"
+    exit 1
+  fi
   pushd $HOMEBREW_PROJECT
     git add .
     git commit -m "update to version:$version"
