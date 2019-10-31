@@ -26,7 +26,7 @@ source "/usr/local/opt/fvm/init.sh"
 1. Print `fvm` command help
 ```shell
 fvm
-# or `fvm help`
+# or `fvm --help`
 ```
 
 2. Install Flutter@1.9.1
