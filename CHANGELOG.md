@@ -1,3 +1,12 @@
+## [1.1.2](https://github.com/xinfeng-tech/fvm/compare/v1.1.1...v1.1.2) (2019-10-31)
+
+
+### Bug Fixes
+
+* remove error when install version that has installted ([6634049](https://github.com/xinfeng-tech/fvm/commit/66340492391579d8587dc48c8f051adffe11284b))
+
+
+
 ## [1.1.1](https://github.com/xinfeng-tech/fvm/compare/v1.1.0...v1.1.1) (2019-10-31)
 
 
