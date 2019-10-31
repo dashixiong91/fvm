@@ -24,6 +24,7 @@ function run_test(){
   fi
   HOMEBREW_NO_AUTO_UPDATE=true brew install --HEAD --force $FORMULA_FILE
   brew test --HEAD -d $FORMULA_FILE
+  echo -e "\033[32m All tests passed! \033[0m"
 }
 
 function main(){
