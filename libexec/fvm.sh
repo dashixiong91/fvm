@@ -36,16 +36,24 @@ function print_help(){
     echo "Usage: fvm <command> [arguments]"
     echo ""
     echo "Available commands:"
-    echo "  list-remote [release_type]      Print flutter-sdk release versions.[release_type] should be stable|beta|dev."
+    echo "  list-remote [release_type]      Print flutter-sdk release versions."
+    echo "                                  [release_type] should be stable|beta|dev."
     echo "  list|ls                         Print flutter-sdk installed versions."
     echo "  install <version_key>           Install flutter-sdk version that matched <version_key>."
     echo "  remove <version>                Remove flutter-sdk version or alias."
-    echo "  alias <name> <version_key>      Set an alias named <name> pointing to version that matched <version_key>."
+    echo "  alias <name> <version_key>      Set an alias named <name> pointing to version that"
+    echo "                                  matched <version_key>."
     echo "  latest-dev                      Create a latest-dev version copy from latest."
     echo "  use <version_key>               Switch flutter-sdk to version that matched <version_key>."
-    echo "  help|*                          Display help information."
+    echo "  --version                       Display fvm version."
+    echo "  --help                          Display help information."
     echo ""
 
+}
+function print_version(){
+    local pkg_file="${THIS_DIR}/package.json"
+    local pkg_version=`cat ${pkg_file} | grep "\"version\"" | awk 'NR==1' | awk -F '\"' '{print $4}'`
+    echo "$pkg_version"
 }
 
 function init(){
@@ -56,7 +64,7 @@ function init(){
   echo PATH="$FVM_CURRENT_LINK/bin:$PATH"
 }
 
-function list(){
+function list_local(){
     print_green "current => `current`"
     print_blue "installed versions:"
     for version in `ls -1 "${FVM_VERSIONS_DIR}"`
@@ -87,11 +95,6 @@ function current(){
    echo ${current}
 }
 
-function print_current_version(){
-    print_blue "Now using flutter version:`current`...(Please wait a moment when first switch to it!!!)"
-    flutter --version
-}
-
 function use(){
     local version_key="${1:-default}"
     local version=`ls -1 ${FVM_VERSIONS_DIR} | grep "${version_key}" | awk 'NR==1'`
@@ -107,7 +110,8 @@ function use(){
     fi
     rm -rf $FVM_CURRENT_LINK
     ln -s $target_version_dir $FVM_CURRENT_LINK
-    print_current_version
+    print_blue "Now using flutter version:`current`...(Please wait a moment when first switch to it!!!)"
+    flutter --version
 }
 
 function alias(){
@@ -188,7 +192,7 @@ function install(){
   if [[ ! -f "$FVM_VERSIONS_DIR/latest/version" ]];then
     alias latest $version_short
   fi
-  list
+  list_local
 }
 
 function remove(){
@@ -231,13 +235,14 @@ function main(){
     case ${cmd} in
         "init")init;;
         "list-remote"|"ls-remote")list_remote $args;;
-        "list"|"ls")list;;
+        "list"|"ls")list_local;;
         "install")install $args;;
         "remove")remove $args;;
         "alias")alias $args;;
         "latest-dev")latest_dev $args;;
         "use")use $args;;
-        "help"|*)print_help;;
+        "--version")print_version;;
+        "--help"|*)print_help;;
     esac
 }
 main "$@"
