@@ -1,3 +1,18 @@
+## [1.1.1](https://github.com/xinfeng-tech/fvm/compare/v1.1.0...v1.1.1) (2019-10-31)
+
+
+### Bug Fixes
+
+* session will exit when press tab ([2010f4c](https://github.com/xinfeng-tech/fvm/commit/2010f4c901f4a00d6818592a2ff34891bcc0eef7))
+
+
+### Features
+
+* list-remote support filter all release type ([0a7768b](https://github.com/xinfeng-tech/fvm/commit/0a7768bb83a4509a2a94b52a4ea1fb793c577698))
+* print fvm version ([f3276a1](https://github.com/xinfeng-tech/fvm/commit/f3276a178a39ea7fd8f70b0eb3918873937dff4c))
+
+
+
 # [1.1.0](https://github.com/xinfeng-tech/fvm/compare/v1.0.10...v1.1.0) (2019-10-30)
 
 

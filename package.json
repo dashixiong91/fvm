@@ -1,6 +1,6 @@
 {
   "name": "fvm",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Flutter SDK versions Manager",
   "repository": "git@github.com:xinfeng-tech/fvm.git",
   "author": "qianxinfeng <qianxinfeng@meituan.com>",
