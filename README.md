@@ -1,4 +1,7 @@
 # fvm
+[![MIT Licence](https://xinfeng-tech.gitee.io/assets/badge/mit.svg)](https://opensource.org/licenses/mit-license.php) 
+<!-- [![Awesome Flutter](https://xinfeng-tech.gitee.io/assets/badge/awesome-flutter-blue.svg)](https://github.com/Solido/awesome-flutter) -->
+
 > Flutter SDK versions Manager
 
 ## Installation
