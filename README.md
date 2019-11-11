@@ -19,8 +19,8 @@ brew install fvm
 Copy the following content in to your `.bashrc|.zshrc ...` file
 
 ```shell
-export PUB_HOSTED_URL=http://mirrors.cnnic.cn/dart-pub
-export FLUTTER_STORAGE_BASE_URL=http://mirrors.cnnic.cn/flutter 
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export FVM_DIR="$HOME/.fvm"
 source "/usr/local/opt/fvm/init.sh"
 ```
