@@ -53,6 +53,7 @@ function main(){
   fi
   pushd $HOMEBREW_PROJECT
     git checkout master
+    git pull
     local download_url="https://github.com/xinfeng-tech/fvm/archive/v${version}.tar.gz"
     update_formual "url" $download_url
     local sha256=`get_shasum`
@@ -63,6 +64,11 @@ function main(){
       echo -e "\033[31m get sha256 error!!! \033[0m"
       popd
       exit 1
+    fi
+    local is_clean=`git status | grep 'working tree clean'`
+    if [[ -n $is_clean ]];then
+      popd
+      return
     fi
     git add .
     git commit -m "update to version:$version"
