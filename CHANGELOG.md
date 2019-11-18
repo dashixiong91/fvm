@@ -1,3 +1,12 @@
+## [1.1.4](https://github.com/xinfeng-tech/fvm/compare/v1.1.3...v1.1.4) (2019-11-18)
+
+
+### Bug Fixes
+
+* init error when blank in $PATH ([bb88b76](https://github.com/xinfeng-tech/fvm/commit/bb88b76fa9d9d2e60ad76bae39e663ea30c1a184))
+
+
+
 ## [1.1.3](https://github.com/xinfeng-tech/fvm/compare/v1.1.2...v1.1.3) (2019-11-11)
 
 
