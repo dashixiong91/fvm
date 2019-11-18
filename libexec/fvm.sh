@@ -8,7 +8,7 @@ FVM_DIR="${FVM_DIR:-"$HOME/.fvm"}"
 FVM_VERSIONS_DIR="${FVM_DIR}/versions"
 FVM_CURRENT_LINK="${FVM_DIR}/current"
 
-FLUTTER_STORAGE_BASE_URL="${FLUTTER_STORAGE_BASE_URL:-"http://mirrors.cnnic.cn/flutter"}"
+FLUTTER_STORAGE_BASE_URL="${FLUTTER_STORAGE_BASE_URL:-"https://storage.flutter-io.cn"}"
 FLUTTER_RELEASE_BASE_URL="${FLUTTER_STORAGE_BASE_URL}/flutter_infra/releases"
 
 darwin=false

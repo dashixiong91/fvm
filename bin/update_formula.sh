@@ -51,17 +51,19 @@ function main(){
     echo -e "\033[31m version is required!!! \033[0m"
     exit 1
   fi
-  local download_url="https://github.com/xinfeng-tech/fvm/archive/v${version}.tar.gz"
-  update_formual "url" $download_url
-  local sha256=`get_shasum`
-  update_formual "sha256" $sha256
-  echo "url:$download_url"
-  echo "sha256:${sha256}"
-  if [[ -z $sha256 ]];then
-    echo -e "\033[31m get sha256 error!!! \033[0m"
-    exit 1
-  fi
   pushd $HOMEBREW_PROJECT
+    git checkout master
+    local download_url="https://github.com/xinfeng-tech/fvm/archive/v${version}.tar.gz"
+    update_formual "url" $download_url
+    local sha256=`get_shasum`
+    update_formual "sha256" $sha256
+    echo "url:$download_url"
+    echo "sha256:${sha256}"
+    if [[ -z $sha256 ]];then
+      echo -e "\033[31m get sha256 error!!! \033[0m"
+      popd
+      exit 1
+    fi
     git add .
     git commit -m "update to version:$version"
     git push
