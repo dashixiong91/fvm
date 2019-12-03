@@ -58,6 +58,6 @@ fvm list
 fvm list-remote all
 ```
 
-## Preview
+## 预览图
 
  <img src="https://xinfeng-tech.gitee.io/assets/fvm/terminal_v3.png" alt="terminal">
