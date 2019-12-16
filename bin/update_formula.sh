@@ -54,7 +54,7 @@ function main(){
   pushd $HOMEBREW_PROJECT
     git checkout master
     git pull
-    local download_url="https://github.com/xinfeng-tech/fvm/archive/v${version}.tar.gz"
+    local download_url="https://github.com/dashixiong91/fvm/archive/v${version}.tar.gz"
     update_formual "url" $download_url
     local sha256=`get_shasum`
     update_formual "sha256" $sha256

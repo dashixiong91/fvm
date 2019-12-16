@@ -2,7 +2,7 @@
   "name": "fvm",
   "version": "1.1.4",
   "description": "Flutter SDK versions Manager",
-  "repository": "git@github.com:xinfeng-tech/fvm.git",
+  "repository": "git@github.com:dashixiong91/fvm.git",
   "author": "qianxinfeng <qianxinfeng@meituan.com>",
   "license": "MIT",
   "installationMethod": "tar",
@@ -15,7 +15,7 @@
     "husky": "^4.0.0-beta.5"
   },
   "scripts": {
-    "postinstall": "git submodule init && git submodule update",
+    "postinstall": "bin/init.sh",
     "test": "bin/test.sh",
     "commit": "git-cz",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",

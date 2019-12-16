@@ -1,6 +1,6 @@
 # fvm
-[![MIT Licence](https://xinfeng-tech.gitee.io/assets/badge/mit.svg)](https://opensource.org/licenses/mit-license.php) 
-<!-- [![Awesome Flutter](https://xinfeng-tech.gitee.io/assets/badge/awesome-flutter-blue.svg)](https://github.com/Solido/awesome-flutter) -->
+[![MIT Licence](https://dashixiong91.gitee.io/assets/badge/mit.svg)](https://opensource.org/licenses/mit-license.php) 
+<!-- [![Awesome Flutter](https://dashixiong91.gitee.io/assets/badge/awesome-flutter-blue.svg)](https://github.com/Solido/awesome-flutter) -->
 
 README [English](README.md) | [中文](README-zh.md)
 
@@ -10,7 +10,7 @@ README [English](README.md) | [中文](README-zh.md)
 
 1. 首先，添加homebrew的tap源：
 ```shell
-brew tap xinfeng-tech/fvm
+brew tap dashixiong91/fvm
 ```
 
 2. 添加完tap之后，你可以安装`fvm`
@@ -60,4 +60,4 @@ fvm list-remote all
 
 ## 预览图
 
- <img src="https://xinfeng-tech.gitee.io/assets/fvm/terminal_v3.png" alt="terminal">
+ <img src="https://dashixiong91.gitee.io/assets/fvm/terminal_v3.png" alt="terminal">
