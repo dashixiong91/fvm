@@ -3,6 +3,7 @@
 set -e
 
 THIS_DIR="$(cd "$(if [[ "${0:0:1}" == "/" ]]; then echo "$(dirname $0)";else echo "$PWD/$(dirname $0)";fi)"; pwd)"
+TMPDIR="${TMPDIR:-"/tmp/"}"
 
 FVM_DIR="${FVM_DIR:-"$HOME/.fvm"}"
 FVM_VERSIONS_DIR="${FVM_DIR}/versions"
@@ -174,10 +175,11 @@ function install(){
     print_red "Error: no flutter version matched $version_key !!"
     exit 1
   fi
-  local version_short=`echo $version_zip | awk -F '_v' '{print $2}' | awk -F '.zip' '{print $1}'`
+  local file_short=`echo $version_zip | awk -F '_v' '{print $2}'`
+  local version_short=`echo $version_zip | awk -F '_v' '{print $2}' | awk -F '.zip' '{print $1}' | awk -F '.tar.xz' '{print $1}'`
   local download_url="${FLUTTER_RELEASE_BASE_URL}/${version_zip}"
   local temp_dir="${TMPDIR}fvm"
-  local temp_zip="${temp_dir}/flutter.zip"
+  local temp_zip="${temp_dir}/$file_short"
   local target_dir="${FVM_VERSIONS_DIR}/${version_short}"
   if [[ -d ${target_dir} ]];then
     print_green "flutter $version_short seems to has installed,skipted it!"
@@ -187,7 +189,14 @@ function install(){
   mkdir -p `dirname $temp_zip`
   print_green "flutter $version_short is downloading..."
   curl --progress-bar -o $temp_zip $download_url
-  unzip -oq $temp_zip -d $temp_dir
+
+  local unzip_cmd="tar xf $temp_zip -C $temp_dir"
+  if [[ $darwin == true ]];then
+      unzip_cmd="unzip -oq $temp_zip -d $temp_dir"
+  fi
+
+  print_blue "$unzip_cmd"
+  eval "$unzip_cmd"
   mv "${temp_dir}/flutter" $target_dir
   print_blue "flutter $version_short has installed to $target_dir!"
   rm -rf $temp_zip

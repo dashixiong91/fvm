@@ -24,6 +24,9 @@ brew install fvm
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export FVM_DIR="$HOME/.fvm"
 source "/usr/local/opt/fvm/init.sh"
+
+export PATH="$PATH:$FVM_DIR/current/bin/"
+export PATH="$PATH:$FVM_DIR/current/bin/cache/dart-sdk/bin"
 ```
 ## Usage
 
