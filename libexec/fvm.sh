@@ -3,7 +3,7 @@
 set -e
 
 THIS_DIR="$(cd "$(if [[ "${0:0:1}" == "/" ]]; then echo "$(dirname $0)";else echo "$PWD/$(dirname $0)";fi)"; pwd)"
-TMPDIR="${TMPDIR:-"/tmp/"}"
+TMPDIR="${TMPDIR:-"${THIS_DIR}/tmp/"}"
 
 FVM_DIR="${FVM_DIR:-"$HOME/.fvm"}"
 FVM_VERSIONS_DIR="${FVM_DIR}/versions"
