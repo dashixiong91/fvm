@@ -144,7 +144,7 @@ function list_remote(){
     local release_type="${1:-"all"}"
     local full_path="$2"
     local release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_linux.json"
-    if [[ darwin ]];then
+    if [[ $darwin == true ]];then
       release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_macos.json"
     fi
     if [[ $release_type == "all" ]];then
