@@ -141,16 +141,13 @@ function alias(){
 }
 
 function list_remote(){
-    local release_type="${1:-"all"}"
+    local release_type="${1:-"/"}"
     local full_path="$2"
     local release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_linux.json"
     if [[ darwin ]];then
       release_info_url="${FLUTTER_RELEASE_BASE_URL}/releases_macos.json"
     fi
-    if [[ $release_type == "all" ]];then
-      release_type='/'
-    fi
-    local short_format="awk -F '_v' '{print \$2}' | awk -F '.zip' '{print \$1}'"
+    local short_format="awk -F '_' '{print \$3}' | awk -F '.zip' '{print \$1}'"
     if [[ -n $full_path ]];then
       short_format=""
     fi
@@ -169,12 +166,12 @@ function install(){
     print_red "Error: \$version is required !!" 
     exit 1
   fi
-  version_zip=`list_remote all 1 | grep "$version_key" | awk 'NR==1'`
+  version_zip=`list_remote / 1 | grep "$version_key" | awk 'NR==1'`
   if [[ -z ${version_zip}  ]];then
     print_red "Error: no flutter version matched $version_key !!"
     exit 1
   fi
-  local version_short=`echo $version_zip | awk -F '_v' '{print $2}' | awk -F '.zip' '{print $1}'`
+  local version_short=`echo $version_zip | awk -F '_' '{print $3}' | awk -F '.zip' '{print $1}'`
   local download_url="${FLUTTER_RELEASE_BASE_URL}/${version_zip}"
   local temp_dir="${TMPDIR}fvm"
   local temp_zip="${temp_dir}/flutter.zip"
