@@ -1,3 +1,13 @@
+## [1.1.5](https://github.com/dashixiong91/fvm/compare/v1.1.4...v1.1.5) (2020-05-08)
+
+
+### Bug Fixes
+
+* list remote can not show version 1.17 ([74a5169](https://github.com/dashixiong91/fvm/commit/74a5169e5b573d34d4cbf26c2ecc56ec2dc916e9))
+* update github url ([684260c](https://github.com/dashixiong91/fvm/commit/684260c1bfbee414ed2ed56dc1cf2e3e1c9bd63f))
+
+
+
 ## [1.1.4](https://github.com/dashixiong91/fvm/compare/v1.1.3...v1.1.4) (2019-11-18)
 
 
