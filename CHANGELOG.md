@@ -1,3 +1,12 @@
+## [1.1.6](https://github.com/dashixiong91/fvm/compare/v1.1.5...v1.1.6) (2021-09-16)
+
+
+### Bug Fixes
+
+* fix list-remote all has no output ([41a5b06](https://github.com/dashixiong91/fvm/commit/41a5b06b5af8441c4b9440fe9688a864186fe00d))
+
+
+
 ## [1.1.5](https://github.com/dashixiong91/fvm/compare/v1.1.4...v1.1.5) (2020-05-08)
 
 
